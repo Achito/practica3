@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Práctica 3 - Grupo 24</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script src="http://cdn.dashjs.org/latest/dash.all.min.js"></script>
+  <script src="http://cdn.dashjs.org/latest/dash.all.debug.js"></script>
+
+ 
+
+</head>
+
+<style>
+    video {
+        width: 640px;
+        height: 360px;
+        margin-left: 20px;
+        margin-top: 20px;
+        
+    }
+</style>
+<body>
+    <nav class="navbar navbar-expand navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Práctica 3</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+  
+        <div class="collapse navbar-collapse" id="navbarsExample02">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="./index.html">Parte 1 <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./parte2.html">Parte 2</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="./parte31.html">Parte 3.1</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./parte32.html">Parte 3.2</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="./parte4.html">Parte 4</a>
+            </li>
+
+          </ul>
+
+        </div>
+      </nav>
+
+      <div class="col-xs-6">
+        <div class="center-block">
+            <video class="dashjs-player" autoplay="" controls="true" preload="auto">
+                <source src="https://dash.akamaized.net/envivio/EnvivioDash3/manifest.mpd" type="application/dash+xml" />
+            </video>
+        </div>
+    </div>
+
+  
+
+
+<script>
+    var player;
+    document.addEventListener("DOMContentLoaded", function () {
+        init();
+    });
+    function init(){
+        player = dashjs.MediaPlayerFactory.create ( document.querySelector(".dashjs-player"));
+
+    };
+</script>
+
+
+
+</body>
+</html>

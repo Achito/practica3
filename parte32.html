@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Práctica 3 - Grupo 24</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script src="http://cdn.dashjs.org/latest/dash.all.min.js"></script>
+  <script src="http://cdn.dashjs.org/latest/dash.all.debug.js"></script>
+</head>
+
+<style>
+    video {
+        width: 640px;
+        height: 360px;
+        margin-left: 20px;
+        margin-top: 20px;
+        
+    }
+</style>
+<body>
+    <nav class="navbar navbar-expand navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Práctica 3</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+  
+        <div class="collapse navbar-collapse" id="navbarsExample02">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+              <a class="nav-link" href="./index.html">Parte 1 <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./parte2.html">Parte 2</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./parte31.html">Parte 3.1</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="./parte32.html">Parte 3.2</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="./parte4.html">Parte 4</a>
+            </li>
+          </ul>
+
+        </div>
+      </nav>
+
+      <div class="col-xs-6">
+        <div class="center-block">
+          <div class="code">
+            <video class="dashjs-player" autoplay controls preload="auto" muted>
+            </video>
+            </div>
+            <div class="code">
+              <p>Clave errónea</p>
+            <p>Video Bitrate: <span id="bitrate"></span> kbps</p>
+             <p>Video Buffer: <span id="buffer"></span> seconds</p>
+             <p>Video Representation: <span id="representation"></span></p>
+            </div>
+        </div>
+    </div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+init();
+});
+function init(){
+
+  const protData = {
+                "org.w3.clearkey": {
+                    "clearkeys": {
+                        "oW5AK5BW43HzbTSKpiu3SQ": "hyN9IKGfWKdAwFa00000000"
+                    }
+                }
+            };
+var video,
+ player,
+ mpd_url = "./outputEncriptado/stream.mpd";
+video = document.querySelector("video");
+player = dashjs.MediaPlayer().create();
+player.initialize(video, mpd_url, true);
+
+
+player.on(dashjs.MediaPlayer.events["PLAYBACK_ENDED"], function() {
+clearInterval(eventPoller);
+});
+
+player.setProtectionData(protData);
+
+
+var eventPoller = setInterval(function() {
+var streamInfo = player.getActiveStream().getStreamInfo();
+var dashMetrics = player.getDashMetrics();
+var dashAdapter = player.getDashAdapter();
+ if (dashMetrics && streamInfo) {
+ const periodIdx = streamInfo.index;
+ var repSwitch = dashMetrics.getCurrentRepresentationSwitch('video', true);
+ var bufferLevel = dashMetrics.getCurrentBufferLevel('video', true);
+ var bitrate = repSwitch ? Math.round(dashAdapter.
+ getBandwidthForRepresentation(repSwitch.to,
+ periodIdx) / 1000) : NaN;
+ document.getElementById('buffer').innerText = bufferLevel + " secs";
+ document.getElementById('bitrate').innerText = bitrate + " Kbps";
+ document.getElementById('representation').innerText = repSwitch.to;
+ }
+}, 500);
+}
+</script>
+
+</body>
+</html>
